@@ -1,0 +1,42 @@
+# Lessons reviewed — token-radar-01 S5 build (24 Nov 2026)
+
+Read before building; each lesson below is applied in this build, not just noted.
+
+1. **S4 run_completes rejection (24 Nov 2026, VERIFIED).** S4's main.ts read
+   `dashboard/` and `screenshots/` as bare relative paths. The grader runs the
+   entrypoint from a working directory that is not the repo root, so
+   `cpSync("dashboard")` threw ENOENT and the program exited 1. Applied: S5
+   resolves both directories from the script's own directory
+   (`dirname(fileURLToPath(import.meta.url))`), and the build verifies it by
+   running main.ts from /tmp with exit 0 and byte-identical outputs.
+
+2. **S4 repo_readme rejection (24 Nov 2026).** S4's README had no live
+   make.fun badges, so the first submit was refused (HTTP 422) and the fix had
+   to be added after the seal. Applied: S5's README carries the three live
+   badges and the bounty link from the start, taken from the official API
+   template (GET /api/competitions/token-radar-01/requirements).
+
+3. **Seal discipline (gta6-01 lesson).** Never add or edit any file in the
+   source dir after the final verification run. The S5 build seals only after
+   every check passes.
+
+4. **S3 EV double-count (VERIFIED 23 Nov 2026).** S3 computed
+   `EV = implied × odds − cost` while `implied` already contains odds.
+   Applied: S5 uses `EV = implied × slice` with `slice = 0.07 / farmers`;
+   odds enter once, inside the implied value.
+
+5. **Authorship (forensics-corrected).** A line first seen in a tool result is
+   "read" forever. Applied: every file in this repo was written fresh in this
+   recorded session from the spec; no S4 source file was read or copied. The
+   only copied file is the kit's `vendor/makefun-board.ts`, which the kit
+   requires and the authorship count excludes.
+
+6. **Determinism.** Two runs must write byte-identical outputs, and the
+   dossier must be byte-identical on rebuild. Applied: main.ts rebuilds the
+   dossier and throws if it differs; the build runs twice from the repo dir
+   and once from /tmp, and compares the outputs byte for byte.
+
+7. **Honest labels.** Board odds are assumed, not fitted; an unreported
+   listing date uses an assumed age of 513 days. Applied: the dashboard says
+   so in hero positions, and the held-out test, the curve and the hazard strip
+   carry the genuinely fitted measurements.

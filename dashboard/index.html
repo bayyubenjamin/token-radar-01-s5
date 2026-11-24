@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="hero">
+<h1>Token Radar</h1>
+<p class="sub">Pre-token protocols ranked by implied value, with a farm plan for each one.</p>
+<p>Size curve fitted on 128 traded comps.</p>
+<p>Fitted log-RMSE 2.10 vs flat 2.24, fitted wins 5/5 splits.</p>
+<p>Board odds are assumed, not fitted.</p>
+<p id="statusBar">FARM 121 · THIN 47 · SKIP 30</p>
+</header>
+
+<section id="evidence">
+<h2>How the numbers are earned</h2>
+<p>The fitted curve is ln(mcap) = 6.96 + 0.52 × ln(TVL), R² 0.19.</p>
+<p>The page refits the curve live; the fitted values are recomputed in your browser. <span id="liveFit"></span></p>
+<p>Launch hazard fitted as a Weibull survival model, shape 0.50, scale 882 days.</p>
+<p>Weibull fitted held-out log-loss 0.656, against assumed exponential 0.799 and base rate 0.688.</p>
+<p>The hazard strip is the fitted evidence for launch timing.</p>
+<table id="hazardTable">
+<thead><tr><th>Age (days)</th><th>60-day launch chance</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>23.0%</td></tr>
+<tr><td>100</td><td>8.5%</td></tr>
+<tr><td>513</td><td>4.2%</td></tr>
+<tr><td>1095</td><td>3.0%</td></tr>
+<tr><td>3000</td><td>1.8%</td></tr>
+</tbody>
+</table>
+<p>A fitted logit (held-out log-loss 0.654) is shown for comparison only, not used as board odds.</p>
+<p>The logit is fitted on age alone; it answers the wrong question for the board.</p>
+<p>Logit coefficients: b0 = −3.6574, b1 = 0.6137.</p>
+<p>Every fitted claim on this page names its held-out test.</p>
+</section>
+
+<section id="notmeasured">
+<h2>What is not measured</h2>
+<p>Unreported listing date: the age is assumed (513 days).</p>
+<p>Unreported inputs: the age — and the odds — are assumed, not observed.</p>
+<p>The assumed age applies to 7 rows; the assumed change applies to 2 rows.</p>
+<p>Assumed values are flagged in every detail view.</p>
+</section>
+
+<section id="board">
+<h2>Board</h2>
+<div class="controls">
+<button data-filter="ALL" class="on">All</button>
+<button data-filter="FARM">FARM</button>
+<button data-filter="THIN">THIN</button>
+<button data-filter="SKIP">SKIP</button>
+<input id="search" type="text" placeholder="Search name or slug">
+<select id="sort">
+<option value="implied-desc">Implied: high to low</option>
+<option value="implied-asc">Implied: low to high</option>
+</select>
+</div>
+<p id="countLabel">Showing 198 of 198</p>
+<table id="boardTable">
+<thead><tr><th>#</th><th>Protocol</th><th>Category</th><th>Chain</th><th>TVL</th><th>7d</th><th>Age</th><th>Implied</th><th>Verdict</th><th>EV / cost</th></tr></thead>
+<tbody id="boardBody"></tbody>
+</table>
+</section>
+
+<section id="detail">
+<h2>Detail</h2>
+<dl id="detailList">
+<dt>Protocol</dt><dd id="dName">—</dd>
+<dt>Fitted curve</dt><dd id="dSize">—</dd>
+<dt>Growth</dt><dd id="dGrowth">—</dd>
+<dt>Maturity</dt><dd id="dMaturity">—</dd>
+<dt>Odds</dt><dd id="dOdds">—</dd>
+<dt>Implied value</dt><dd id="dImplied">—</dd>
+<dt>Expected airdrop</dt><dd id="dEv">—</dd>
+<dt>EV / cost</dt><dd id="dRatio">—</dd>
+<dt>Cost</dt><dd id="dCost">—</dd>
+<dt>Hold</dt><dd id="dHold">—</dd>
+</dl>
+<div id="dPlan"></div>
+</section>
+
+<section id="liveTab">
+<h2>Live token</h2>
+<p id="liveCount"></p>
+<table id="liveTable">
+<thead><tr><th>#</th><th>Protocol</th><th>TVL</th><th>Market cap</th></tr></thead>
+<tbody id="liveBody"></tbody>
+</table>
+</section>
+
+<footer>
+<p>Fitted means measured on held-out data, not asserted.</p>
+</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
